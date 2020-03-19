@@ -10,6 +10,13 @@ O tema do projeto deve ser escolhido por cada equipe. O programa a ser desenvolv
 
 O projeto deve ser desenvolvido de equipes de até 3 alunos. Não são aceitos projetos individuais ! 
 
+## Modelagem do programa
+
+A modelagem deve mostrar o seguinte:
+1. **A estrutura do programa**: pensem nos blocos funcionais que o constituem (ex: interface com usuário, repositório de contatos, processador de contatos)
+2. **Representação dos dados**: como são representados contatos, e listas de contatos ? Como eles são armazenados ou organizados na memória usada pelo programa ?
+3. **Funcionalidades do programa**: para cada funcionalidade do programa, escrevam a sequência de ações que devem ser realizadas (algo como um algoritmo simplificado e em pseudo-código)
+
 ## Desenvolvimento do projeto e acompanhamento pelo professor
 
 O projeto deve ser desenvolvido a partir de tarefas, que são definidas de forma a atingir objetivos intermediários. A realização de todas as tarefas deve convergir para que se atinjam os objetivos gerais do projeto. 
