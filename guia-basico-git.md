@@ -1,9 +1,5 @@
 # Introdução ao uso do github com o CLion
 
-* [Uma introdução ao uso do github](https://kinsta.com/pt/base-de-conhecimento/que-github/): ignorar as menções ao Wordpress
-* [Conceitos básicos sobre git](https://www.extra-imagens.com.br/Control/ArquivoExibir.aspx?IdArquivo=98301252&Attachment=1): precisamos somente saber o necessário para um ciclo de atualizações d um projeto. Para isso, é suficiente saber o que é *commit*, *pull*, *push* e *merge*.
-* [Um guia básico sobre git](https://tableless.com.br/tudo-que-voce-queria-saber-sobre-git-e-github-mas-tinha-vergonha-de-perguntar/): apesar de este guia focar no uso do git na linha de comando, ele mostra de forma clara muitos conceitos sobre git
-
 O git é um sistema de controle de versão de arquivos, e que foi projetado para ajudar no projeto de desenvolvimento de software. Com ele se pode acompanhar o histórico de modificações feitos nos arquivos de um projeto, os quais formam um **repositório** git. Ele facilita muito o trabalho em equipe, pois diferentes desenvolvedores podem:
 * Clonarem um repositório git remoto, e assim obterem os arquivos do projeto dentro de um repositório local
 * Efetuarem suas modificações nesses arquivos, e em seguida registrarem-nas em seus repositório locais (fazerem **commit**)
@@ -24,5 +20,10 @@ O video a seguir ilustra essa sequência de trabalho usando o git:
 * [Trabalhando em seu repositório](http://tele.sj.ifsc.edu.br/~msobral/prg2/2020-1/git-clion-2.mp4): ao final, o repositório remoto no github deve estar sincronizado com seu repositório local
 
 
-Tudo muito simples, mas ... e se ocorrerem conflitos entre as modificações feitas por diferentes desenvolvedores ? Bem isso é assuto para outro momento !
+Tudo muito simples, mas ... e se ocorrerem conflitos entre as modificações feitas por diferentes desenvolvedores ? Bem isso é assunto para outro momento ! Por enquanto, você pode ler estes tutoriais, pois eles explicam o git com um pouco mais de detalhes:
+* [Uma introdução ao uso do github](https://kinsta.com/pt/base-de-conhecimento/que-github/): ignorar as menções ao Wordpress
+* [Conceitos básicos sobre git](https://www.extra-imagens.com.br/Control/ArquivoExibir.aspx?IdArquivo=98301252&Attachment=1): precisamos somente saber o necessário para um ciclo de atualizações d um projeto. Para isso, é suficiente saber o que é *commit*, *pull*, *push* e *merge*.
+* [Um guia básico sobre git](https://tableless.com.br/tudo-que-voce-queria-saber-sobre-git-e-github-mas-tinha-vergonha-de-perguntar/): apesar de este guia focar no uso do git na linha de comando, ele mostra de forma clara muitos conceitos sobre git
+
+
 
