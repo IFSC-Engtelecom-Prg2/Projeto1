@@ -20,7 +20,7 @@ O video a seguir ilustra essa sequência de trabalho usando o git:
 * [Trabalhando em seu repositório](http://tele.sj.ifsc.edu.br/~msobral/prg2/2020-1/git-clion-2.mp4): ao final, o repositório remoto no github deve estar sincronizado com seu repositório local
 
 
-Tudo muito simples, mas ... e se ocorrerem conflitos entre as modificações feitas por diferentes desenvolvedores ? Bem isso é assunto para outro momento ! Por enquanto, você pode ler estes tutoriais, pois eles explicam o git com um pouco mais de detalhes:
+Tudo muito simples, mas ... e se ocorrerem conflitos entre as modificações feitas por diferentes desenvolvedores ? Bem, isso é assunto para outro momento ! Por enquanto, leia estes tutoriais, pois eles explicam o git com um pouco mais de detalhes:
 * [Uma introdução ao uso do github](https://kinsta.com/pt/base-de-conhecimento/que-github/): ignorar as menções ao Wordpress
 * [Conceitos básicos sobre git](https://www.extra-imagens.com.br/Control/ArquivoExibir.aspx?IdArquivo=98301252&Attachment=1): precisamos somente saber o necessário para um ciclo de atualizações d um projeto. Para isso, é suficiente saber o que é *commit*, *pull*, *push* e *merge*.
 * [Um guia básico sobre git](https://tableless.com.br/tudo-que-voce-queria-saber-sobre-git-e-github-mas-tinha-vergonha-de-perguntar/): apesar de este guia focar no uso do git na linha de comando, ele mostra de forma clara muitos conceitos sobre git
