@@ -7,7 +7,7 @@ O git é um sistema de controle de versão de arquivos, e que foi projetado para
 
 Nas aulas de PRG2 o git já vem sendo usado quase de forma implícita. Todos os exercícios realizados até o momento envolveram usar o git para obter seus arquivos de projeto CLion. No entanto, o uso do git foi muito básico, pois se limitou a clonar um repositório disponibilizado no github. Para explorar mais o que o git tem a oferecer, é necessário entender o ciclo básico de atualizações de arquivos em um repositório.
 
-**OBS:** antes de continuar, cerrtifique-se de que o programa *git* esteja instalado em seu computadir. Execute este comando em um terminal:
+**OBS:** antes de continuar, certifique-se de que o programa *git* esteja instalado em seu computadir. Execute este comando em um terminal:
 
 ```
 sudo apt install git
