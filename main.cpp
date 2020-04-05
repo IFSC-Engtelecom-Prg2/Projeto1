@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <algorithm>
 #include "Analisador.h"
 
 using namespace std;
@@ -43,15 +44,11 @@ void menu_extra(int & N, string & d1, string & d2) {
 // copia os N primeiros resultados existentes em "result"
 // retorna uma nova lista com esses N valores
 list<Resultado> extraiN_resultados(list<Resultado> & result, int N) {
-    list<Resultado> res;
+    N = min<int>(N, result.size());
+    list<Resultado> r(N);
+    copy_n(result.begin(), N, r.begin());
 
-    for (auto & r: result) {
-        res.push_back(r);
-        N--;
-        if (N == 0) break;
-    }
-
-    return res;
+    return r;
 }
 
 // Apresenta o resultado de uma análise
