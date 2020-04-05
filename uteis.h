@@ -13,8 +13,15 @@ using std::string;
 using std::vector;
 using std::list;
 
+// funções de uso geral ...
+
+// separa uma string em substrings, usando "sep" como delimitador
 vector<string> separa(string algo, char sep=' ');
+
+// calcula a média de um conjunto de números
 double stddev(const list<double> & val);
+
+// calcula o desvio padrão de um conjunto de números
 double media(const list<double> & val);
 
 #endif //PROJETO1_UTEIS_H

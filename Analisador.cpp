@@ -5,14 +5,118 @@
 #include "uteis.h"
 #include <fstream>
 #include <map>
-#include <math.h>
 
 using std::ifstream;
 using std::pair;
 using std::stof;
 using std::stoi;
 
+/**********************************************************************
+ protótipos de funções privativas deste módulo
+**********************************************************************/
 typedef pair<string,Cotacao> CotacaoAtivo;
+
+// converte uma data no formato mes/ano para um inteiro
+int converte_data(const string & data);
+
+// obtém um ativo específico contido na lista de Ativo
+Ativo& obtem_ativo(list<Ativo> & dados, const string & nome);
+
+// Converte uma linha em um par formado por <nome do ativo, Cotacao>
+CotacaoAtivo gera_cotacao(const string & linha);
+
+// Adiciona uma cotação em um ativo da lista de Ativo
+void adiciona_cotacao(list<Ativo> & dados, const string & nome_ativo, const Cotacao & cot);
+
+// Obtém a cotação de um ativo m uma data específica
+Cotacao obtem_cotacao(Ativo & ativo, int data);
+
+// Calcula o retorno de um ativo, para o período entre data1 e data2
+Resultado retorno_financeiro(Ativo & ativo, int data1, int data2);
+
+// Calcula a volatilidade de um ativo, para o período entre data1 e data2
+Resultado volatilidade(Ativo & ativo, int data1, int data2);
+
+// Calcula o índice de Sharpe de um ativo, para o período entre data1 e data2
+Resultado sharpe(Ativo & ativo, double ref, int data1, int data2);
+
+
+/**********************************************************
+ Funções públicas deste módulo ... API do analisador
+**********************************************************/
+
+void an_le_dados(const string &nomearq, list<Ativo> &result) {
+    ifstream arq(nomearq);
+
+    if (! arq.is_open()) return; // nada pode ser lido ... não conseguiu abrir o arquivo
+
+    string linha;
+    while (getline(arq, linha)) {
+        try {
+            auto cot = gera_cotacao(linha);
+            adiciona_cotacao(result, cot.first, cot.second);
+        } catch (...) {
+            // ignora ...
+        }
+    }
+}
+
+list<Resultado> an_retornos(list<Ativo> &dados, const string & data1, const string & data2) {
+    auto d1 = converte_data(data1);
+    auto d2 = converte_data(data2);
+    list<Resultado> res;
+
+    for (auto & ativo: dados) {
+        try {
+            res.push_back(retorno_financeiro(ativo, d1, d2));
+        } catch(...) {
+            // ignora .. sem cotação em ao menos uma das datas
+        }
+    }
+    return res;
+}
+
+list<Resultado> an_volatilidades(list<Ativo> &dados, const string & data1, const string & data2) {
+    auto d1 = converte_data(data1);
+    auto d2 = converte_data(data2);
+    list<Resultado> res;
+
+    for (auto & ativo: dados) {
+        try {
+            auto x = volatilidade(ativo, d1, d2);
+            if (x.info != 0) res.push_back(x);
+        } catch(...) {
+            // ignora .. sem cotação em ao menos uma das datas
+        }
+    }
+    return res;
+}
+
+list<Resultado> an_sharpe(list<Ativo> &dados, const string & data1, const string & data2) {
+    list<Resultado> res;
+    auto d1 = converte_data(data1);
+    auto d2 = converte_data(data2);
+    auto &lft = obtem_ativo(dados, "LFT");
+    auto ref = retorno_financeiro(lft, d1, d2);
+
+    for (auto & ativo: dados) {
+        try {
+            res.push_back(sharpe(ativo, ref.info, d1, d2));
+        } catch(...) {
+            // ignora .. sem cotação em ao menos uma das datas
+        }
+    }
+    return res;
+}
+
+bool operator<(const Resultado &r1, const Resultado &r2) {
+    if (r1.info == r2.info) return r1.nome < r2.nome;
+    return r1.info < r2.info;
+}
+
+/***************************************************************
+Definições das funções privativas deste módulo
+***************************************************************/
 
 int converte_data(const string & data) {
     int mes, ano;
@@ -73,6 +177,7 @@ Resultado retorno_financeiro(Ativo & ativo, int data1, int data2) {
     Resultado r;
 
     r.nome = ativo.nome;
+    if (cot1.valor == 0) throw -1;
     r.info = (cot2.valor - cot1.valor)/cot1.valor;
     return r;
 }
@@ -102,72 +207,4 @@ Resultado sharpe(Ativo & ativo, double ref, int data1, int data2) {
     r.nome = ativo.nome;
 
     return r;
-}
-
-void an_le_dados(const string &nomearq, list<Ativo> &result) {
-    ifstream arq(nomearq);
-
-    if (! arq.is_open()) return; // nada pode ser lido ... não conseguiu abrir o arquivo
-
-    string linha;
-    while (getline(arq, linha)) {
-        try {
-            auto cot = gera_cotacao(linha);
-            adiciona_cotacao(result, cot.first, cot.second);
-        } catch (...) {
-            // ignora ...
-        }
-    }
-}
-
-list<Resultado> an_retornos(list<Ativo> &dados, const string & data1, const string & data2) {
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    list<Resultado> res;
-
-    for (auto & ativo: dados) {
-        try {
-            res.push_back(retorno_financeiro(ativo, d1, d2));
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
-    }
-    return res;
-}
-
-list<Resultado> an_volatilidades(list<Ativo> &dados, const string & data1, const string & data2) {
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    list<Resultado> res;
-
-    for (auto & ativo: dados) {
-        try {
-            res.push_back(volatilidade(ativo, d1, d2));
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
-    }
-    return res;
-}
-
-list<Resultado> an_sharpe(list<Ativo> &dados, const string & data1, const string & data2) {
-    list<Resultado> res;
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    auto &lft = obtem_ativo(dados, "LFT");
-    auto ref = retorno_financeiro(lft, d1, d2);
-
-    for (auto & ativo: dados) {
-        try {
-            res.push_back(sharpe(ativo, ref.info, d1, d2));
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
-    }
-    return res;
-}
-
-bool operator<(const Resultado &r1, const Resultado &r2) {
-    if (r1.info == r2.info) return r1.nome < r2.nome;
-    return r1.info < r2.info;
 }

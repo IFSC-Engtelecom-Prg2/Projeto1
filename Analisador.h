@@ -13,6 +13,7 @@ using std::string;
 
 const int ANO_REF = 1980;
 
+// Tipos de dados do analisador
 struct Cotacao {
     int data; // a data representada como a quantidade de meses desde jan/1980
     float valor; // o valor do ativo
@@ -27,6 +28,10 @@ struct Resultado {
     string nome; // o código de negociação do ativo
     float info; // o valor do resuatdo (ex: retorno, volatilidade, sharpe)
 };
+
+/*******************************************************
+ API do analisador: funções públicas deste módulo
+*******************************************************/
 
 // lê o arquivo de dados, transformando-os em uma lista de Ativos com suas cotações
 void an_le_dados(const string & nomearq, list<Ativo> & result);
