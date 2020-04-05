@@ -3,4 +3,4 @@ project(Projeto1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Projeto1 main.cpp)
+add_executable(Projeto1 main.cpp Analisador.cpp Interface.cpp uteis.cpp)
