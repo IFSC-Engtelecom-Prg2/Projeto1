@@ -6,6 +6,7 @@
 #include <fstream>
 #include <map>
 #include <algorithm>
+#include <math.h>
 
 using std::ifstream;
 using std::pair;
@@ -19,6 +20,10 @@ bool Cotacao::operator<(const Cotacao &cot) const {
 double Cotacao::variacao(const Cotacao &ant) const {
     return (valor - ant.valor)/ant.valor;
 }
+
+/***********************************************************
+ * Ativo
+***********************************************************/
 
 Ativo::Ativo(const string &nome): nome(nome), sorted(false) {
 }
@@ -59,7 +64,7 @@ Ativo Ativo::por_periodo(int data1, int data2) {
     Ativo res(nome);
 
     for (auto & cot: cotacoes) {
-        if (cot.data <= data1 and cot.data >= data2) res.adiciona_cotacao(cot);
+        if (cot.data >= data1 and cot.data <= data2) res.adiciona_cotacao(cot);
     }
 
     res.ordena();
@@ -113,7 +118,11 @@ double Ativo::volatilidade() {
 }
 
 double Ativo::sharpe(Ativo & ref) {
-    return (retorno() - ref.retorno())/volatilidade();
+    auto v = volatilidade();
+    if (v == 0) throw -1;
+    auto r = (retorno() - ref.retorno())/v;
+    if (isnan(r)) throw -1;
+    return r;
 }
 
 void Ativo::adiciona(const Ativo &ativo) {
@@ -122,7 +131,7 @@ void Ativo::adiciona(const Ativo &ativo) {
 }
 
 /**********************************************************
- Funções públicas deste módulo ... API do analisador
+ Analisador
 **********************************************************/
 
 Analisador::Analisador(const string &nomearq) {
@@ -185,7 +194,7 @@ list<Resultado> Analisador::volatilidades(int N, const string &data1, const stri
     for (auto & ativo: ativos) {
         try {
             auto novo = ativo.por_periodo(d1, d2);
-            Resultado r(novo.get_nome(), novo.retorno());
+            Resultado r(novo.get_nome(), novo.volatilidade());
             if (r.info != 0) res.push_back(r);
         } catch(...) {
             // ignora .. sem cotação em ao menos uma das datas
@@ -214,6 +223,7 @@ list<Resultado> Analisador::sharpe(int N, const string &data1, const string &dat
         try {
             auto novo = ativo.por_periodo(d1, d2);
             Resultado r(novo.get_nome(), novo.sharpe(ref));
+            res.push_back(r);
         } catch(...) {
             // ignora .. sem cotação em ao menos uma das datas
         }

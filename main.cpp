@@ -53,7 +53,7 @@ void apresenta_resultado(list<Resultado> & r) {
 }
 
 int main(int argc, char * argv[]) {
-    // nesta lista ficarão os dados lidos do arquivos
+    // cria o analisador, que lê os dados do arquivo ArqDados
     Analisador dados(ArqDados);
 
     // se nada conseguiu ler, termina a execução
