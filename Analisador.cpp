@@ -5,120 +5,72 @@
 #include "uteis.h"
 #include <fstream>
 #include <map>
+#include <algorithm>
 
 using std::ifstream;
 using std::pair;
 using std::stof;
 using std::stoi;
 
-/**********************************************************************
- protótipos de funções privativas deste módulo
-**********************************************************************/
-typedef pair<string,Cotacao> CotacaoAtivo;
+bool Cotacao::operator<(const Cotacao &cot) const {
+    return data < cot.data;
+}
 
-// converte uma data no formato mes/ano para um inteiro
-int converte_data(const string & data);
+double Cotacao::variacao(const Cotacao &ant) const {
+    return (valor - ant.valor)/ant.valor;
+}
 
-// obtém um ativo específico contido na lista de Ativo
-Ativo& obtem_ativo(list<Ativo> & dados, const string & nome);
+Ativo::Ativo(const string &nome): nome(nome), sorted(false) {
+}
 
-// Converte uma linha em um par formado por <nome do ativo, Cotacao>
-CotacaoAtivo gera_cotacao(const string & linha);
+Ativo::Ativo(): sorted(false) {}
 
-// Adiciona uma cotação em um ativo da lista de Ativo
-void adiciona_cotacao(list<Ativo> & dados, const string & nome_ativo, const Cotacao & cot);
+Ativo Ativo::cria(const string &linha) {
+    auto itens = separa(linha);
+    if (itens.size() != 3) throw -1; // erro !!
 
-// Obtém a cotação de um ativo m uma data específica
-Cotacao obtem_cotacao(Ativo & ativo, int data);
+    Cotacao cot;
 
-// Calcula o retorno de um ativo, para o período entre data1 e data2
-Resultado retorno_financeiro(Ativo & ativo, int data1, int data2);
+    cot.valor = stof(itens[2]);
+    cot.data = data2int(itens[0]);
 
-// Calcula a volatilidade de um ativo, para o período entre data1 e data2
-Resultado volatilidade(Ativo & ativo, int data1, int data2);
+    Ativo ativo(itens[1]);
+    ativo.adiciona_cotacao(cot);
+    return ativo;
+}
 
-// Calcula o índice de Sharpe de um ativo, para o período entre data1 e data2
-Resultado sharpe(Ativo & ativo, double ref, int data1, int data2);
+bool Ativo::operator==(const Ativo &o) const {
+    return nome == o.nome;
+}
 
+void Ativo::adiciona_cotacao(const Cotacao &cot) {
+    cotacoes.push_back(cot);
+    sorted = false;
+}
 
-/**********************************************************
- Funções públicas deste módulo ... API do analisador
-**********************************************************/
-
-void an_le_dados(const string &nomearq, list<Ativo> &result) {
-    ifstream arq(nomearq);
-
-    if (! arq.is_open()) return; // nada pode ser lido ... não conseguiu abrir o arquivo
-
-    string linha;
-    while (getline(arq, linha)) {
-        try {
-            auto cot = gera_cotacao(linha);
-            adiciona_cotacao(result, cot.first, cot.second);
-        } catch (...) {
-            // ignora ...
-        }
+void Ativo::ordena() {
+    if (not sorted) {
+        sorted = true;
+        cotacoes.sort();
     }
 }
 
-list<Resultado> an_retornos(list<Ativo> &dados, const string & data1, const string & data2) {
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    list<Resultado> res;
+Ativo Ativo::por_periodo(int data1, int data2) {
+    Ativo res(nome);
 
-    for (auto & ativo: dados) {
-        try {
-            res.push_back(retorno_financeiro(ativo, d1, d2));
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
+    for (auto & cot: cotacoes) {
+        if (cot.data <= data1 and cot.data >= data2) res.adiciona_cotacao(cot);
     }
+
+    res.ordena();
     return res;
 }
 
-list<Resultado> an_volatilidades(list<Ativo> &dados, const string & data1, const string & data2) {
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    list<Resultado> res;
-
-    for (auto & ativo: dados) {
-        try {
-            auto x = volatilidade(ativo, d1, d2);
-            if (x.info != 0) res.push_back(x);
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
-    }
-    return res;
+Ativo Ativo::por_periodo(const string &data1, const string &data2) {
+    return por_periodo(data2int(data1), data2int(data2));
 }
 
-list<Resultado> an_sharpe(list<Ativo> &dados, const string & data1, const string & data2) {
-    list<Resultado> res;
-    auto d1 = converte_data(data1);
-    auto d2 = converte_data(data2);
-    auto &lft = obtem_ativo(dados, "LFT");
-    auto ref = retorno_financeiro(lft, d1, d2);
-
-    for (auto & ativo: dados) {
-        try {
-            res.push_back(sharpe(ativo, ref.info, d1, d2));
-        } catch(...) {
-            // ignora .. sem cotação em ao menos uma das datas
-        }
-    }
-    return res;
-}
-
-bool operator<(const Resultado &r1, const Resultado &r2) {
-    if (r1.info == r2.info) return r1.nome < r2.nome;
-    return r1.info < r2.info;
-}
-
-/***************************************************************
-Definições das funções privativas deste módulo
-***************************************************************/
-
-int converte_data(const string & data) {
+int Ativo::data2int(const string &data) {
     int mes, ano;
     auto par = separa(data, '/');
 
@@ -129,82 +81,149 @@ int converte_data(const string & data) {
     return (ano - ANO_REF)*12 + mes;
 }
 
-Ativo& obtem_ativo(list<Ativo> & dados, const string & nome) {
-    for (auto &ativo: dados) {
-        if (ativo.nome == nome) return ativo;
+Cotacao& Ativo::obtem_cotacao(int data) {
+    for (auto & cot: cotacoes) {
+        if (cot.data == data) return cot;
+    }
+    throw -1;
+}
+
+double Ativo::retorno() {
+    if (not sorted) ordena();
+    auto cot1 = cotacoes.front();
+    auto cot2 = cotacoes.back();
+
+    if (cot1.valor == 0) throw -1;
+    return cot2.variacao(cot1);
+}
+
+double Ativo::volatilidade() {
+    if (not sorted) ordena();
+
+    list<double> l_var;
+    auto it = cotacoes.begin();
+    auto cot1 = *it;
+
+    for (it++; it != cotacoes.end(); it++) {
+        l_var.push_back(it->variacao(cot1));
+        cot1 = *it;
+    }
+
+    return stddev(l_var);
+}
+
+double Ativo::sharpe(Ativo & ref) {
+    return (retorno() - ref.retorno())/volatilidade();
+}
+
+void Ativo::adiciona(const Ativo &ativo) {
+    for (auto & cot: ativo.cotacoes) cotacoes.push_back(cot);
+    sorted = false;
+}
+
+/**********************************************************
+ Funções públicas deste módulo ... API do analisador
+**********************************************************/
+
+Analisador::Analisador(const string &nomearq) {
+    ifstream arq(nomearq);
+
+    if (! arq.is_open()) return; // nada pode ser lido ... não conseguiu abrir o arquivo
+
+    string linha;
+    while (getline(arq, linha)) {
+        try {
+            auto ativo = Ativo::cria(linha);
+            atualiza(ativo);
+        } catch (...) {
+            // ignora ...
+        }
+    }
+}
+
+void Analisador::atualiza(Ativo &ativo) {
+    try {
+        auto & asset = procura(ativo.get_nome());
+        asset.adiciona(ativo);
+    } catch (...) {
+        ativos.push_back(ativo);
+    }
+}
+
+list<Resultado> Analisador::extraiN(list<Resultado> &r, int N) {
+    N = std::min<int>(N, r.size());
+    list<Resultado> res(N);
+    std::copy_n(r.begin(), N, res.begin());
+
+    return res;
+}
+
+list<Resultado> Analisador::retornos(int N, const string &data1, const string &data2) {
+    list<Resultado> res;
+    int d1 = Ativo::data2int(data1);
+    int d2 = Ativo::data2int(data2);
+
+    for (auto & ativo:ativos) {
+        auto novo = ativo.por_periodo(d1, d2);
+
+        try {
+            Resultado r(novo.get_nome(), novo.retorno());
+            res.push_back(r);
+        } catch(...) {}
+    }
+
+    res.sort();
+    res.reverse();
+    return extraiN(res, N);
+}
+
+list<Resultado> Analisador::volatilidades(int N, const string &data1, const string &data2) {
+    list<Resultado> res;
+    int d1 = Ativo::data2int(data1);
+    int d2 = Ativo::data2int(data2);
+
+    for (auto & ativo: ativos) {
+        try {
+            auto novo = ativo.por_periodo(d1, d2);
+            Resultado r(novo.get_nome(), novo.retorno());
+            if (r.info != 0) res.push_back(r);
+        } catch(...) {
+            // ignora .. sem cotação em ao menos uma das datas
+        }
+    }
+    res.sort();
+    return extraiN(res, N);
+}
+
+Ativo& Analisador::procura(const string &nome) {
+    for (auto & ativo: ativos) {
+        if (ativo.get_nome() == nome) return ativo;
     }
 
     throw -1;
 }
 
+list<Resultado> Analisador::sharpe(int N, const string &data1, const string &data2) {
+    list<Resultado> res;
+    int d1 = Ativo::data2int(data1);
+    int d2 = Ativo::data2int(data2);
+    auto &lft = procura("LFT");
+    auto ref = lft.por_periodo(d1, d2);
 
-CotacaoAtivo gera_cotacao(const string & linha) {
-    auto itens = separa(linha);
-    if (itens.size() != 3) throw -1; // erro !!
-
-    Cotacao cot;
-
-    cot.valor = stof(itens[2]);
-    cot.data = converte_data(itens[0]);
-
-    return CotacaoAtivo(itens[1], cot);
-}
-
-void adiciona_cotacao(list<Ativo> & dados, const string & nome_ativo, const Cotacao & cot) {
-    try {
-        auto & ativo = obtem_ativo(dados, nome_ativo);
-        ativo.cotacoes.push_back(cot);
-    } catch (...) {
-        Ativo ativo;
-        ativo.nome = nome_ativo;
-        ativo.cotacoes.push_back(cot);
-        dados.push_back(ativo);
+    for (auto & ativo: ativos) {
+        try {
+            auto novo = ativo.por_periodo(d1, d2);
+            Resultado r(novo.get_nome(), novo.sharpe(ref));
+        } catch(...) {
+            // ignora .. sem cotação em ao menos uma das datas
+        }
     }
+    res.sort();
+    res.reverse();
+    return extraiN(res, N);
 }
 
-Cotacao obtem_cotacao(Ativo & ativo, int data) {
-    for (auto & cot: ativo.cotacoes) {
-        if (cot.data == data) return cot;
-    }
-
-    throw -1; // sem cotação para essa data !
-}
-
-Resultado retorno_financeiro(Ativo & ativo, int data1, int data2) {
-    auto cot1 = obtem_cotacao(ativo, data1);
-    auto cot2 = obtem_cotacao(ativo, data2);
-
-    Resultado r;
-
-    r.nome = ativo.nome;
-    if (cot1.valor == 0) throw -1;
-    r.info = (cot2.valor - cot1.valor)/cot1.valor;
-    return r;
-}
-
-Resultado volatilidade(Ativo & ativo, int data1, int data2) {
-    list<double> l_cot;
-
-    for (int data=data1; data <= data2; data++) {
-        auto cot = obtem_cotacao(ativo, data);
-        l_cot.push_back(cot.valor);
-    }
-
-    Resultado r;
-
-    r.nome = ativo.nome;
-    r.info = stddev(l_cot);
-
-    return r;
-}
-
-Resultado sharpe(Ativo & ativo, double ref, int data1, int data2) {
-    auto ret = retorno_financeiro(ativo, data1, data2);
-    auto vol = volatilidade(ativo, data1, data2);
-
-    Resultado r;
-    r.info = (ret.info - ref)/vol.info;
-    r.nome = ativo.nome;
-
-    return r;
+bool Resultado::operator<(const Resultado &r) const {
+    if (info == r.info) return nome < r.nome;
+    return info < r.info;
 }

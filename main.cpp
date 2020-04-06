@@ -41,21 +41,9 @@ void menu_extra(int & N, string & d1, string & d2) {
     getline(cin, d2);
 }
 
-// copia os N primeiros resultados existentes em "result"
-// retorna uma nova lista com esses N valores
-list<Resultado> extraiN_resultados(list<Resultado> & result, int N) {
-    N = min<int>(N, result.size());
-    list<Resultado> r(N);
-    copy_n(result.begin(), N, r.begin());
-
-    return r;
-}
-
 // Apresenta o resultado de uma análise
 // N: quantidade de resultados a mostrar
-void apresenta_resultado(list<Resultado> & res, int N) {
-    auto r = extraiN_resultados(res, N);
-
+void apresenta_resultado(list<Resultado> & r) {
     cout << "Resultado:" << endl;
     cout << "==========" << endl;
     for (auto & dado: r) {
@@ -66,10 +54,7 @@ void apresenta_resultado(list<Resultado> & res, int N) {
 
 int main(int argc, char * argv[]) {
     // nesta lista ficarão os dados lidos do arquivos
-    list<Ativo> dados;
-
-    // lê os dados do arquivo de dados, convertendo-os para uma lista de Ativo
-    an_le_dados(ArqDados, dados);
+    Analisador dados(ArqDados);
 
     // se nada conseguiu ler, termina a execução
     if (dados.empty()) {
@@ -92,23 +77,18 @@ int main(int argc, char * argv[]) {
 
         switch (op) {
             case 1: { // retorno financeiro
-                auto r = an_retornos(dados, data1, data2);
-                r.sort();
-                r.reverse();
-                apresenta_resultado(r, N);
+                auto r = dados.retornos(N, data1, data2);
+                apresenta_resultado(r);
                 break;
             }
             case 2: { // volatilidade
-                auto r = an_volatilidades(dados, data1, data2);
-                r.sort();
-                apresenta_resultado(r, N);
+                auto r = dados.volatilidades(N, data1, data2);
+                apresenta_resultado(r);
                 break;
             }
             case 3: { // índice de sharpe
-                auto r = an_sharpe(dados, data1, data2);
-                r.sort();
-                r.reverse();
-                apresenta_resultado(r, N);
+                auto r = dados.sharpe(N, data1, data2);
+                apresenta_resultado(r);
                 break;
             }
             default: {
