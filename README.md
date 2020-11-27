@@ -2,21 +2,6 @@
 
 O projeto 1 envolve o desenvolvimento de um programa em que o uso de estruturas de dados lineares seja essencial. Assim, o uso de [filas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdução_a_Filas), [pilhas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdu%C3%A7%C3%A3o_a_Pilhas) e/ou [listas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdu%C3%A7%C3%A3o_a_Listas) deve ser fundamental para que o programa atenda seus [requisitos funcionais](https://homepages.dcc.ufmg.br/~figueiredo/disciplinas/aulas/req-funcional-rnf_v01.pdf). 
 
-O tema do projeto deve ser escolhido por cada equipe. O programa a ser desenvolvido devem, primeiramente, ser devidamente explicado. Isso significa que devem ser enunciados:
-* O objetivo do projeto (ex: *escrever um programa para editar listas de reprodução de músicas*)
-* Um resumo que contextualize o programa ser escrito (ex: *Listas de reprodução de músicas definem sequências de músicas, e são armazenadas em arquivos. Diferentes formatos de arquivos para essa finalidade existem, tais como M3U e PLS. A criação de tais arquivos por vezes é trabalhosa, envolvendo selecionar manualmente músicas via aplicativos gráficos. Um programa que gerasse arquivos de listas de reprodução automaticamente, com base em critérios definidos pelo usuário, simplificaria esse processo.*)
-* Os requisitos funcionais do programa, que informam o que o programa deve fazer em cada situação, e qual o resultado a ser gerado.
-* A [modelagem do programa](https://pt.wikipedia.org/wiki/Modelagem_de_software), para explicar sua estrutura e suas características e comportamento. Quer dizer, deve-se explicar de forma geral como o programa será escrito.
-
-O projeto deve ser desenvolvido de equipes de até 3 alunos. Não são aceitos projetos individuais ! 
-
-## Modelagem do programa
-
-A modelagem deve mostrar o seguinte:
-1. **A estrutura do programa**: pensem nos blocos funcionais que o constituem (ex: interface com usuário, repositório de contatos, processador de contatos)
-2. **Representação dos dados**: como são representados contatos, e listas de contatos ? Como eles são armazenados ou organizados na memória usada pelo programa ?
-3. **Funcionalidades do programa**: para cada funcionalidade do programa, escrevam a sequência de ações que devem ser realizadas (algo como um algoritmo simplificado e em pseudo-código)
-
 ## Desenvolvimento do projeto e acompanhamento pelo professor
 
 O projeto deve ser desenvolvido a partir de tarefas, que são definidas de forma a atingir objetivos intermediários. A realização de todas as tarefas deve convergir para que se atinjam os objetivos gerais do projeto. 
@@ -34,7 +19,18 @@ Por meio da aba *Projects* o professor poderá acompanhar o andamento das ativid
 
 ## Avaliação do projeto
 
-O projeto será avaliado nas seguintes dimensões:
-1. O programa foi implementado e atende os requisitos enunciados, usando as estruturas de dados conforme descrito em sua modelagem, sem apresentar comportamentos inesperados nem trancamentos (*60% do conceito*)
-1. O programa foi documentado em um arquivo de texto em formato PDF, incluindo uma descrição de sua modelagem e requisitos funcionais, e como cada um deles foi atingido. Esse texto deve também explicar quais estruturas de dados foram usadas, e para que finalidade, mostrando sua relevância na escrita do programa. (*20% do conceito*)
-1. As tarefas e suas atividades foram registradas no github, e seus prazos foram cumpridos (*20% do conceito*)
+O projeto será avaliado da seguinte forma:
+
+1. Entrega do programa desenvolvido
+   1. Cada equipe deve entregar um relatório sobre o programa desenvolvido. Esse relatório deve conter o seguinte:
+      * A especificação do programa, que foi realizada no início do projeto.
+      * Uma descrição de quais estruturas de dados foram usadas, e para que finalidade. Isso deve incluir uma explicação sobre como essas estrtutras de dados ajudaram a realizar o programa e obter os resultados esperados
+      * Um manual de utilização do programa
+   1. Junto com a entrega da equipe, cada membro deve entregar um diário de bordo contendo o seguinte:
+      * A descrição do que realizou ao longo do projeto, incluindo tentativas e erros no desenvolvimento do programa
+      * A relação de suas atividades com conhecimentos estudados na unidade, descrevendo como usou esses conhecimentos para resolver os problemas ou necessidades que surgiram ao longo do desenvolvimento
+      * Suas reflexões sobre sua contribuição para alcançar o resultado esperado do projeto.
+1. Avaliação dos programas
+   1. Cada estudante deve avaliar o resultado de alguma outra equipe sorteada pelo professor: os critérios de avaliação, com seus respectivos procedimentos, serão previamente informados pelo professor. Ao final desse processo, cada estudante deve entregar um relato de avaliação contendo a nota concedida. 
+   1. A nota de projeto de cada estudante será feita por uma composição entre a avaliação do resultado de sua equipe, feita por seus colegas, e a avaliação feita pelo professor com base em seu diário de bordo e seu relato de avaliação.
+
