@@ -4,7 +4,7 @@ O projeto 1 envolve o desenvolvimento de um programa em que o uso de estruturas 
 
 ## Acompanhamento pelo professor
 
-Ao longo do projeto, a equipe pode interagir com o professor por meio da aba issues (que significa _problema_, ou _questão a ser resolvida_), acessíveis na segunda aba à esquerda na tela do repositório no github. Associado a cada issue existe um forum, onde se podem publicar mensagens e discutir as atividades realizadas, as dúvidas e soluções propostas. A equipe pode usar esse forum tanto para debater uma tarefa, como para documentar o que foi pensado e realizado.
+Ao longo do projeto, a equipe pode interagir com o professor por meio da aba [issues](../../issues) (que significa _problema_, ou _questão a ser resolvida_), acessíveis na segunda aba à esquerda na tela do repositório no github. Associado a cada issue existe um forum, onde se podem publicar mensagens e discutir as atividades realizadas, as dúvidas e soluções propostas. A equipe pode usar esse forum tanto para debater uma tarefa, como para documentar o que foi pensado e realizado.
 
 A vantagem de usar issues é manter um histórico de interações entre os membros da equipe, e também entre professor e equipe.
 
