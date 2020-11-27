@@ -7,7 +7,7 @@ O git é um sistema de controle de versão de arquivos, e que foi projetado para
 
 Nas aulas de PRG2 o git já vem sendo usado quase de forma implícita. Todos os exercícios realizados até o momento envolveram usar o git para obter seus arquivos de projeto CLion. No entanto, o uso do git foi muito básico, pois se limitou a clonar um repositório disponibilizado no github. Para explorar mais o que o git tem a oferecer, é necessário entender o ciclo básico de atualizações de arquivos em um repositório.
 
-**OBS:** antes de continuar, certifique-se de que o programa *git* esteja instalado em seu computadir. Execute este comando em um terminal:
+**OBS:** antes de continuar, certifique-se de que o programa *git* esteja instalado em seu computador. Execute este comando em um terminal:
 
 ```
 sudo apt install git
@@ -18,7 +18,7 @@ Como já foi visto, o primeiro passo é clonar um repositório remoto existente 
 
 
 Uma vez tendo o repositório clonado, nas próximas vzes em que se for trabalhar no projeto deve-se seguir este procedimento:
-1. Use a operação **push** para obter as modificações no projeto feitas por outros membros da equipe. Essas modificações devem estar no repositório no github.
+1. Use a operação **pull** ou **update** para obter as modificações no projeto feitas por outros membros da equipe. Essas modificações devem estar no repositório no github.
 1. Trabalhe normalmente nos arquivos do projeto em seu repositório local. Quando concluir suas modificações, faça a operação **commit** para registrá-las em seu repositório.
 1. Use a operação **push** para enviar suas modificações para o repositório do github
 
