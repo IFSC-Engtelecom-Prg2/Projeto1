@@ -2,20 +2,11 @@
 
 O projeto 1 envolve o desenvolvimento de um programa em que o uso de estruturas de dados lineares seja essencial. Assim, o uso de [filas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdução_a_Filas), [pilhas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdu%C3%A7%C3%A3o_a_Pilhas) e/ou [listas](https://wiki.sj.ifsc.edu.br/index.php/PRG29003:_Introdu%C3%A7%C3%A3o_a_Listas) deve ser fundamental para que o programa atenda seus [requisitos funcionais](https://homepages.dcc.ufmg.br/~figueiredo/disciplinas/aulas/req-funcional-rnf_v01.pdf). 
 
-## Desenvolvimento do projeto e acompanhamento pelo professor
+## Acompanhamento pelo professor
 
-O projeto deve ser desenvolvido a partir de tarefas, que são definidas de forma a atingir objetivos intermediários. A realização de todas as tarefas deve convergir para que se atinjam os objetivos gerais do projeto. 
+Ao longo do projeto, a equipe pode interagir com o professor por meio da aba issues (que significa _problema_, ou _questão a ser resolvida_), acessíveis na segunda aba à esquerda na tela do repositório no github. Associado a cada issue existe um forum, onde se podem publicar mensagens e discutir as atividades realizadas, as dúvidas e soluções propostas. A equipe pode usar esse forum tanto para debater uma tarefa, como para documentar o que foi pensado e realizado.
 
-As tarefas serão criadas na forma de *issues* (*questão a ser resolvida*), acessíveis na segunda aba à esquerda. Cada tarefa possui uma descrição, incluindo um objetivo, e um prazo para conclusão, chamado de *milestone* (*marco*). Associada a cada tarefa existe um forum, onde se podem publicar mensagens e discutir as atividades realizadas no escopo da tarefa, as dúvidas e soluções propostas. Nenhuma tarefa deve ter duração maior que 7 dias ! A equipe pode usar esse forum tanto para debater uma tarefa, como para documentar o que foi pensado e realizado.
-
-Para facilitar o acompanhamento do projeto, todas as tarefas (ou *issues*) devem ser organizadas na aba *Projects*. Essa aba possibilita que se organizem tarefas em três categorias:
-* **ToDO**: tarefas que devem ser realizadas, e ainda não foram iniciadas
-* **In progress**: tarefas que foram iniciadas, mais ainda não concluídas
-* **Done**: tarefas que foram concluídas
-
-Observem que a primeira tarefa **já está publicada**. Vejam na aba *Projects* ...
-
-Por meio da aba *Projects* o professor poderá acompanhar o andamento das atividades, e interagir com cada equipe.
+A vantagem de usar issues é manter um histórico de interações entre os membros da equipe, e também entre professor e equipe.
 
 ## Avaliação do projeto
 
